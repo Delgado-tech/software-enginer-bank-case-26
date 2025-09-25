@@ -1,0 +1,23 @@
+{
+	"name": "estagio-26-case",
+	"version": "1.0.0",
+	"description": "Estudo de Caso de Engenharia de Software 2026",
+	"main": "main.ts",
+	"scripts": {
+		"main": "node --no-warnings --import ./ts-node-register.js src/main.ts",
+		"dev-server": "tsc-watch --noClear -p ./tsconfig.json"
+	},
+	"author": "Leonardo Delgado",
+	"license": "MIT",
+	"devDependencies": {
+		"@types/node": "^24.5.2",
+		"tsc-watch": "^7.1.1",
+		"typescript": "^5.9.2"
+	},
+	"dependencies": {
+		"chalk": "^5.6.2",
+		"enquirer": "^2.4.1",
+		"ts-node": "^10.9.2"
+	},
+	"type": "module"
+}
