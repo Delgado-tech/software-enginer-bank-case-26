@@ -1,18 +1,11 @@
-import enq from "enquirer";
-import { Account } from "./model/account.model.js";
+import { MenuCollectionController } from "./controllers/menu-collection.controller.js";
+import type { MenuNameId } from "./types/MenuList.js";
+import { getMainMenu } from "./menus/main.menu.js";
+import { getAccountMenu } from "./menus/account.menu.js";
 
-const { prompt } = enq;
+const app = new MenuCollectionController<MenuNameId>();
 
-async function mainMenu() {
-	const choice: any = await prompt({
-		name: "titular",
-		message: "Nome do Titular:",
-		type: "input",
-		prefix: "::",
-	});
+app.register(getMainMenu(app));
+app.register(getAccountMenu(app));
 
-	const account = new Account(choice.titular, "", "", "", "", "checking", 0);
-	console.log(account.accountHolder);
-}
-
-mainMenu();
+app.render("main");

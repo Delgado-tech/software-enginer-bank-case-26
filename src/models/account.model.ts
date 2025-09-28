@@ -1,6 +1,6 @@
 import { MinMaxLength } from "../decorators/min-max-length.decorator.js";
 import { PrintPropery } from "../decorators/print-property.js";
-import type { AccountType } from "../types/Account.js";
+import type { AccountProps, AccountType } from "../types/Account.js";
 
 export class Account {
 	@PrintPropery("Titular")
@@ -29,15 +29,15 @@ export class Account {
 	@MinMaxLength(0, Infinity)
 	private _balance: number;
 
-	constructor(
-		accountHolder: string,
-		branch: string,
-		accountNumber: string,
-		bank: string,
-		cpf: string,
-		accountType: AccountType,
-		balance: number,
-	) {
+	constructor({
+		accountHolder,
+		branch,
+		accountNumber,
+		bank,
+		cpf,
+		accountType,
+		balance,
+	}: AccountProps) {
 		this._accountHolder = accountHolder;
 		this._branch = branch;
 		this._accountNumber = accountNumber;
