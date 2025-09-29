@@ -3,4 +3,5 @@ import type { MenuCollectionController } from "../controllers/menu-collection.co
 export interface App {
 	sessionAccountId: number;
 	menu: MenuCollectionController<T>;
+	onExit: () => void;
 }

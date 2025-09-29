@@ -1,3 +1,4 @@
+import chalk from "chalk";
 import { AccountsController } from "./controllers/accounts.controller.js";
 import { MenuCollectionController } from "./controllers/menu-collection.controller.js";
 import { getAccountMenu } from "./menus/account.menu.js";
@@ -12,9 +13,19 @@ AccountsController.Instance.add(accountsMock);
 const app: App = {
 	sessionAccountId: 0,
 	menu: new MenuCollectionController<MenuNameId>(),
+	onExit() {
+		const msg = chalk.green(
+			"Obrigado por usar nossos serviços,\nNos vemos em breve!\n",
+		);
+
+		console.clear();
+		console.log(msg);
+
+		process.exit();
+	},
 };
 
 app.menu.register(getMainMenu(app));
 app.menu.register(getAccountMenu(app));
 
-app.menu.render("main");
+app.menu.render("main").catch(() => app.onExit?.());

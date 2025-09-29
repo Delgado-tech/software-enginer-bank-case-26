@@ -17,7 +17,7 @@ export const getMainMenu: GetMenuFn<MenuNameId> = (appInstance: App) => {
 				{
 					name: chalk.gray("Sair"),
 					onSelect() {
-						process.exit();
+						appInstance.onExit?.();
 					},
 				},
 			],

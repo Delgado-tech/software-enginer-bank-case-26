@@ -8,7 +8,7 @@ export class AccountModel {
 	private _accountHolder: string;
 
 	@PrintPropery("Agência")
-	@MinMaxLength(4)
+	@MinMaxLength(4, 5)
 	private _branch: string;
 
 	@PrintPropery("Conta")
@@ -16,11 +16,11 @@ export class AccountModel {
 	private _accountNumber: string;
 
 	@PrintPropery("Banco")
-	@MinMaxLength(0, 50)
+	@MinMaxLength(1, 50)
 	private _bank: string;
 
 	@PrintPropery("CPF")
-	@MinMaxLength(0, 11)
+	@MinMaxLength(11)
 	private _cpf: string;
 
 	private _accountType: AccountType;
