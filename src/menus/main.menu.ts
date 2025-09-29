@@ -2,7 +2,9 @@ import chalk from "chalk";
 import type { App } from "../types/App.js";
 import type { GetMenuFn, MenuNameId } from "../types/MenuList.js";
 
-export const getMainMenu: GetMenuFn<MenuNameId> = (appInstance: App) => {
+export const getMainMenu: GetMenuFn<MenuNameId> = (
+	appInstance: App<MenuNameId>,
+) => {
 	return {
 		id: "main",
 		menu: {
@@ -13,7 +15,10 @@ export const getMainMenu: GetMenuFn<MenuNameId> = (appInstance: App) => {
 					onSelect: () => appInstance.menu.render("account"),
 				},
 				{ name: "Extrato", onSelect() {} },
-				{ name: "Transação", onSelect() {} },
+				{
+					name: "Transação",
+					onSelect: () => appInstance.menu.render("transaction"),
+				},
 				{
 					name: chalk.gray("Sair"),
 					onSelect() {

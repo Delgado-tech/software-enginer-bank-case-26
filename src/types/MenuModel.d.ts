@@ -5,6 +5,7 @@ export type MenuOption = {
 
 export type MenuModelProps = {
 	header: string;
+	headerColor?: string;
 	content?: string;
 	options: MenuOption[];
 };

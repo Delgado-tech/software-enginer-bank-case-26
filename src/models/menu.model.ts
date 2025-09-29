@@ -3,12 +3,19 @@ import type { MenuModelProps, MenuOption } from "../types/MenuModel.js";
 export class MenuModel {
 	private _options: MenuOption[];
 	private _header: string;
+	private _headerColor: string;
 	private _content: string | undefined;
 
-	constructor({ header, content, options }: MenuModelProps) {
+	constructor({
+		header,
+		content = "",
+		options,
+		headerColor = "#8849eeff",
+	}: MenuModelProps) {
 		this._header = header;
-		this._content = content ?? "";
+		this._content = content;
 		this._options = options;
+		this._headerColor = headerColor;
 	}
 
 	public getOption(name: MenuOption["name"]): MenuOption | undefined {
@@ -19,23 +26,31 @@ export class MenuModel {
 		return this._options;
 	}
 
-	public get header(): string {
-		return this._header;
-	}
-
-	public get content(): string | undefined {
-		return this._content;
-	}
-
 	public set options(setter: MenuOption[]) {
 		this._options = setter;
+	}
+
+	public get header(): string {
+		return this._header;
 	}
 
 	public set header(setter: string) {
 		this._header = setter;
 	}
 
+	public get content(): string | undefined {
+		return this._content;
+	}
+
 	public set content(setter: string) {
 		this._content = setter;
+	}
+
+	public get headerColor(): string {
+		return this._headerColor;
+	}
+
+	public set headerColor(setter: string) {
+		this._headerColor = setter;
 	}
 }

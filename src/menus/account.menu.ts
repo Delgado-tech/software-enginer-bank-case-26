@@ -6,7 +6,9 @@ import { AccountView } from "../views/account.view.js";
 
 const accountView = new AccountView();
 
-export const getAccountMenu: GetMenuFn<MenuNameId> = (appInstance: App) => {
+export const getAccountMenu: GetMenuFn<MenuNameId> = (
+	appInstance: App<MenuNameId>,
+) => {
 	const accountInfo = accountView.renderAccountInfo(
 		AccountsController.Instance.get(appInstance.sessionAccountId),
 	);

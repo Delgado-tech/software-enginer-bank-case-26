@@ -1,0 +1,49 @@
+import { MinMax } from "../decorators/min-max.decorator.js";
+import { PrintPropery } from "../decorators/print-property.js";
+
+export class TaxModel {
+	@PrintPropery("Taxa")
+	@MinMax(0, Infinity)
+	private _tax: number;
+
+	/**
+	 *
+	 * @param tax - taxa a ser criada para aplicar em diferentes valores
+	 */
+	constructor(tax: number) {
+		this._tax = tax;
+	}
+
+	public get tax(): number {
+		return this._tax;
+	}
+
+	public set tax(setter: number) {
+		this._tax = setter;
+	}
+
+	/**
+	 * @param amount - valor a ser aplicado a taxa
+	 *
+	 * @example
+	 * const amount = 100;
+	 * const tax = new TaxModel(0.1);
+	 * const taxedAmount = tax.applyTo(amount);
+	 * // taxa de 10% aplicado ao valor de 100
+	 * // taxedAmount passa a ser: 110
+	 *
+	 * @returns valor taxado
+	 */
+	applyTo(amount: number): number {
+		return amount + amount * this._tax;
+	}
+
+	/**
+	 * @param beforeAmount - valor sem a taxa aplicada
+	 * @param afterAmount - valor com a taxa aplicada
+	 * @returns valor da taxa aplicada de um valor para o outro
+	 */
+	getTax(beforeAmount: number, afterAmount: number): number {
+		return (beforeAmount * 100) / afterAmount;
+	}
+}

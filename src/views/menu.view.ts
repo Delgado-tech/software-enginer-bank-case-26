@@ -9,7 +9,7 @@ const prefix = "::";
 export class MenuView {
 	async renderMenuAndReturn(model: MenuModel): Promise<string> {
 		const choice: Choice = await prompt({
-			message: `${chalk.blue(this.toHeader(model.header))}${model.content ? `\n${model.content}\n\n` : ""}`,
+			message: `${chalk.hex(model.headerColor)(this.toHeader(model.header))}${model.content ? `\n${model.content}\n\n` : ""}`,
 			name: "value",
 			type: "select",
 			choices: model.options.map((op, idx) => {
@@ -47,7 +47,7 @@ export class MenuView {
 	}
 
 	private toHeader(header: string): string {
-		const hr = `\n${"=".repeat(20)}\n`;
+		const hr = `\n${"=".repeat(30)}\n`;
 		return `${hr}${header}${hr}`;
 	}
 }

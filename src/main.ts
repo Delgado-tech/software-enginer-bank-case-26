@@ -6,13 +6,14 @@ import { getMainMenu } from "./menus/main.menu.js";
 import { accountsMock } from "./mocks/accounts.mock.js";
 import type { App } from "./types/App.js";
 import type { MenuNameId } from "./types/MenuList.js";
+import { getTransactionMenu } from "./menus/transaction.menu.js";
 
 // inicializa as contas de usuário
 AccountsController.Instance.add(accountsMock);
 
-const app: App = {
+const app: App<MenuNameId> = {
 	sessionAccountId: 0,
-	menu: new MenuCollectionController<MenuNameId>(),
+	menu: new MenuCollectionController(),
 	onExit() {
 		const msg = chalk.green(
 			"Obrigado por usar nossos serviços,\nNos vemos em breve!\n",
@@ -27,5 +28,6 @@ const app: App = {
 
 app.menu.register(getMainMenu(app));
 app.menu.register(getAccountMenu(app));
+app.menu.register(getTransactionMenu(app));
 
 app.menu.render("main").catch(() => app.onExit?.());
