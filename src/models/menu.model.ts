@@ -5,17 +5,20 @@ export class MenuModel {
 	private _header: string;
 	private _headerColor: string;
 	private _content: string | undefined;
+	private _endContent: string | undefined;
 
 	constructor({
 		header,
 		content = "",
 		options,
 		headerColor = "#8849eeff",
+		endContent = "",
 	}: MenuModelProps) {
 		this._header = header;
 		this._content = content;
 		this._options = options;
 		this._headerColor = headerColor;
+		this._endContent = endContent;
 	}
 
 	public getOption(name: MenuOption["name"]): MenuOption | undefined {
@@ -44,6 +47,14 @@ export class MenuModel {
 
 	public set content(setter: string) {
 		this._content = setter;
+	}
+
+	public get endContent(): string | undefined {
+		return this._endContent;
+	}
+
+	public set endContent(setter: string) {
+		this._endContent = setter;
 	}
 
 	public get headerColor(): string {

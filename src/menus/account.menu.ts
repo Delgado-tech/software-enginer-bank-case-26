@@ -4,20 +4,22 @@ import type { App } from "../types/App.js";
 import type { GetMenuFn, MenuNameId } from "../types/MenuList.js";
 import { AccountView } from "../views/account.view.js";
 
-const accountView = new AccountView();
-
 export const getAccountMenu: GetMenuFn<MenuNameId> = (
 	appInstance: App<MenuNameId>,
 ) => {
-	const accountInfo = accountView.renderAccountInfo(
-		AccountsController.Instance.get(appInstance.sessionAccountId),
-	);
+	const getAccountInfo = () => {
+		const accountView = new AccountView();
+
+		return accountView.renderAccountInfo(
+			AccountsController.Instance.get(appInstance.sessionAccountId),
+		);
+	};
 
 	return {
 		id: "account",
 		menu: {
 			header: "Dados da Conta",
-			content: accountInfo,
+			content: getAccountInfo(),
 			options: [
 				{
 					name: chalk.gray("Voltar"),

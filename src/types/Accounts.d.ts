@@ -4,3 +4,8 @@ export interface AccountItem {
 	id: number;
 	account: AccountModelProps;
 }
+
+export interface AccountItemPartial {
+	id: number;
+	account: Partial<AccountModelProps>;
+}

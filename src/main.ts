@@ -26,8 +26,8 @@ const app: App<MenuNameId> = {
 	},
 };
 
-app.menu.register(getMainMenu(app));
-app.menu.register(getAccountMenu(app));
-app.menu.register(getTransactionMenu(app));
+app.menu.register(() => getMainMenu(app));
+app.menu.register(() => getAccountMenu(app));
+app.menu.register(() => getTransactionMenu(app));
 
-app.menu.render("main").catch(() => app.onExit?.());
+app.menu.render("transaction").catch(() => app.onExit?.());

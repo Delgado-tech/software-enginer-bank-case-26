@@ -1,6 +1,6 @@
 import { AccountModel } from "../models/account.model.js";
 import type { AccountModelProps } from "../types/AccountModel.js";
-import type { AccountItem } from "../types/Accounts.js";
+import type { AccountItem, AccountItemPartial } from "../types/Accounts.js";
 
 export class AccountsController {
 	private readonly _accountList: Map<number, AccountModel>;
@@ -38,8 +38,21 @@ export class AccountsController {
 		});
 	}
 
-	update({ id, account }: AccountItem): void {
-		this._accountList.set(id, new AccountModel(account));
+	update({ id, account }: AccountItemPartial): void {
+		const prev = this.get(id);
+		if (!prev) return;
+
+		const next: AccountModelProps = {
+			accountHolder: account.accountHolder ?? prev.accountHolder,
+			accountType: account.accountType ?? prev.accountType,
+			bank: account.bank ?? prev.bank,
+			branch: account.branch ?? prev.branch,
+			accountNumber: account.accountNumber ?? prev.accountNumber,
+			cpf: account.cpf ?? prev.cpf,
+			balance: account.balance ?? prev.balance,
+		};
+
+		this._accountList.set(id, new AccountModel(next));
 	}
 
 	remove(id: number): void {

@@ -1,0 +1,71 @@
+type ValidateTestResult = {
+	isValid: boolean;
+	reason?: string;
+};
+
+type ValidationType = "notEmpty" | "number" | "min" | "max";
+
+export class Validate {
+	private _value: any;
+	private _invalid: string | undefined;
+
+	constructor(value: string) {
+		this._value = value;
+	}
+
+	setValue(value: any): void {
+		this._value = value;
+		this._invalid = undefined;
+	}
+
+	test(tests?: Partial<Record<ValidationType, any>>): ValidateTestResult {
+		if (tests) {
+			for (const [key, value] of Object.entries(tests)) {
+				this[key as ValidationType](value);
+			}
+		}
+
+		if (this._invalid === undefined) return { isValid: true };
+		return { isValid: false, reason: this._invalid };
+	}
+
+	notEmpty(..._: any): this | undefined {
+		if (this._value === "" || this._value === undefined || this._value === null) {
+			this._invalid = `O valor informado não pode ser vazio!`;
+			return;
+		}
+
+		return this;
+	}
+
+	number(..._: any): this | undefined {
+		if (
+			isNaN(parseFloat(this._value)) ||
+			String(this._value).match(/[^0-9\.-]/g)
+		) {
+			this._invalid = `O valor informado deve ser um número válido!`;
+			return;
+		}
+		return this;
+	}
+
+	min(min: number, ..._: any): this | undefined {
+		if (!this.number()) return;
+
+		if (this._value < min) {
+			this._invalid = `O valor informado deve ser maior que ${min}!`;
+			return;
+		}
+		return this;
+	}
+
+	max(max: number, ..._: any): this | undefined {
+		if (!this.number()) return;
+
+		if (this._value > max) {
+			this._invalid = `O valor informado deve ser menor que ${max}!`;
+			return;
+		}
+		return this;
+	}
+}
