@@ -1,3 +1,5 @@
+import { MenuModelProps } from "./MenuModel.d.ts";
+
 export type MenuNameId = "main" | "account";
 
 export interface MenuItem<T> {
@@ -5,6 +7,4 @@ export interface MenuItem<T> {
 	menu: MenuModelProps;
 }
 
-export type GetMenuFn<T = any> = (
-	appInstance: MenuCollectionController<MenuNameId>,
-) => MenuItem<T>;
+export type GetMenuFn<T = any> = (appInstance: App) => MenuItem<T>;

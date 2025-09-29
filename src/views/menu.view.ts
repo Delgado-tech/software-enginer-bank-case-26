@@ -9,7 +9,7 @@ const prefix = "::";
 export class MenuView {
 	async renderMenuAndReturn(model: MenuModel): Promise<string> {
 		const choice: Choice = await prompt({
-			message: chalk.blue(this.toHeader(model.header)),
+			message: `${chalk.blue(this.toHeader(model.header))}${model.content ? `\n${model.content}\n\n` : ""}`,
 			name: "value",
 			type: "select",
 			choices: model.options.map((op, idx) => {

@@ -1,6 +1,6 @@
 export type AccountType = "checking" | "savings";
 
-export interface AccountProps {
+export interface AccountModelProps {
 	accountHolder: string;
 	branch: string;
 	accountNumber: string;
