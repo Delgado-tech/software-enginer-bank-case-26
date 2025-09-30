@@ -1,16 +1,16 @@
 import type { MenuModelProps, MenuOption } from "../types/MenuModel.js";
 
 export class MenuModel {
-	private _options: MenuOption[];
-	private _header: string;
-	private _headerColor: string;
-	private _content: string | undefined;
-	private _endContent: string | undefined;
+	protected _options: MenuOption[];
+	protected _header: string;
+	protected _headerColor: string;
+	protected _content: string;
+	protected _endContent: string;
 
 	constructor({
 		header,
 		content = "",
-		options,
+		options = [],
 		headerColor = "#8849eeff",
 		endContent = "",
 	}: MenuModelProps) {
@@ -19,6 +19,16 @@ export class MenuModel {
 		this._options = options;
 		this._headerColor = headerColor;
 		this._endContent = endContent;
+	}
+
+	public getMenuModelProps(): MenuModelProps {
+		return {
+			header: this._header,
+			headerColor: this._headerColor,
+			content: this._content,
+			options: this._options,
+			endContent: this._endContent,
+		};
 	}
 
 	public getOption(name: MenuOption["name"]): MenuOption | undefined {

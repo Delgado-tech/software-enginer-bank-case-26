@@ -1,9 +1,4 @@
-type ValidateTestResult = {
-	isValid: boolean;
-	reason?: string;
-};
-
-type ValidationType = "notEmpty" | "number" | "min" | "max";
+import type { ValidateTestResult, ValidationType } from "../types/Validate.js";
 
 export class Validate {
 	private _value: any;

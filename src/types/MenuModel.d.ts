@@ -8,5 +8,5 @@ export type MenuModelProps = {
 	headerColor?: string;
 	content?: string;
 	endContent?: string;
-	options: MenuOption[];
+	options?: MenuOption[];
 };
