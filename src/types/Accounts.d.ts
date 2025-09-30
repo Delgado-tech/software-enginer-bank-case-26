@@ -9,3 +9,9 @@ export interface AccountItemPartial {
 	id: number;
 	account: Partial<AccountModelProps>;
 }
+
+export interface AccountTransact {
+	id: number;
+	amount: number;
+	operation: OperationType;
+}

@@ -137,23 +137,17 @@ export const getTransferTedSubMenu: GetSubMenu = async ({
 	});
 
 	if (formResult) {
-		// PIX CONFIRMADO
-		const accountRecentInstance = AccountsController.Instance.get(
-			appInstance.sessionAccountId,
-		);
-
-		const newBalance = new OperationModel({
-			operation: OperationType.remove,
-			quantity: 1,
-			unitCost: Number(formResult.amount),
-		}).run((accountRecentInstance?.balance ?? 0) + TED_TAX);
-
-		AccountsController.Instance.update({
+		const sucess = AccountsController.Instance.transact({
 			id: appInstance.sessionAccountId,
-			account: { balance: newBalance },
+			amount: Number(formResult.amount) + TED_TAX,
+			operation: OperationType.remove,
 		});
 
-		await view.message("TED realizado com sucesso!");
+		const msg = sucess
+			? "TED realizado com sucesso!"
+			: "Ocorreu um erro ao realizar a operação, tente novamente mais tarde";
+
+		await view.message(msg);
 	}
 
 	appInstance.menu.render("transfer", appInstance);

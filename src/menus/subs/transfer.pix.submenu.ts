@@ -55,23 +55,17 @@ export const getTransferPixSubMenu: GetSubMenu = async ({
 	});
 
 	if (formResult) {
-		// PIX CONFIRMADO
-		const accountRecentInstance = AccountsController.Instance.get(
-			appInstance.sessionAccountId,
-		);
-
-		const newBalance = new OperationModel({
-			operation: OperationType.remove,
-			quantity: 1,
-			unitCost: Number(formResult.amount),
-		}).run(accountRecentInstance?.balance ?? 0);
-
-		AccountsController.Instance.update({
+		const sucess = AccountsController.Instance.transact({
 			id: appInstance.sessionAccountId,
-			account: { balance: newBalance },
+			amount: Number(formResult.amount),
+			operation: OperationType.remove,
 		});
 
-		await view.message("PIX realizado com sucesso!");
+		const msg = sucess
+			? "PIX realizado com sucesso!"
+			: "Ocorreu um erro ao realizar a operação, tente novamente mais tarde";
+
+		await view.message(msg);
 	}
 
 	appInstance.menu.render("transfer", appInstance);

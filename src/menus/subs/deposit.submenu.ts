@@ -51,20 +51,17 @@ export const getDepositSubMenu: GetSubMenu = async ({
 	});
 
 	if (formResult) {
-		const account = AccountsController.Instance.get(appInstance.sessionAccountId);
-
-		const newBalance = new OperationModel({
-			operation: OperationType.add,
-			quantity: 1,
-			unitCost: Number(formResult.amount),
-		}).run(account?.balance ?? 0);
-
-		AccountsController.Instance.update({
+		const sucess = AccountsController.Instance.transact({
 			id: appInstance.sessionAccountId,
-			account: { balance: newBalance },
+			amount: Number(formResult.amount),
+			operation: OperationType.add,
 		});
 
-		await view.message("Deposito realizado com sucesso!");
+		const msg = sucess
+			? "Deposito realizado com sucesso!"
+			: "Ocorreu um erro ao realizar a operação, tente novamente mais tarde";
+
+		await view.message(msg);
 	}
 
 	appInstance.menu.render("transaction", appInstance);

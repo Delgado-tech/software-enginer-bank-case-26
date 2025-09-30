@@ -1,6 +1,12 @@
 import { AccountModel } from "../models/account.model.js";
+import { OperationModel } from "../models/operation.model.js";
 import type { AccountModelProps } from "../types/AccountModel.js";
-import type { AccountItem, AccountItemPartial } from "../types/Accounts.js";
+import type {
+	AccountItem,
+	AccountItemPartial,
+	AccountTransact,
+} from "../types/Accounts.js";
+import { OperationType } from "../types/OperationType.js";
 
 export class AccountsController {
 	private readonly _accountList: Map<number, AccountModel>;
@@ -38,9 +44,9 @@ export class AccountsController {
 		});
 	}
 
-	update({ id, account }: AccountItemPartial): void {
+	update({ id, account }: AccountItemPartial): boolean {
 		const prev = this.get(id);
-		if (!prev) return;
+		if (!prev) return false;
 
 		const next: AccountModelProps = {
 			accountHolder: account.accountHolder ?? prev.accountHolder,
@@ -53,9 +59,25 @@ export class AccountsController {
 		};
 
 		this._accountList.set(id, new AccountModel(next));
+		return true;
 	}
 
 	remove(id: number): void {
 		this._accountList.delete(id);
+	}
+
+	transact({ id, operation, amount }: AccountTransact): boolean {
+		const account = this.get(id);
+		if (!account) return false;
+
+		const newBalance = new OperationModel({
+			unitCost: amount,
+			operation,
+		}).run(account?.balance ?? 0);
+
+		return this.update({
+			id,
+			account: { balance: newBalance },
+		});
 	}
 }
