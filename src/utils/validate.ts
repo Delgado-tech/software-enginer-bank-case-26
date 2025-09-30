@@ -66,4 +66,20 @@ export class Validate {
 		}
 		return this;
 	}
+
+	minLen(min: number, ..._: any): this | undefined {
+		if (String(this._value).length < min) {
+			this._invalid = `O valor informado deve ter no mínimo ${min} caracteres!`;
+			return;
+		}
+		return this;
+	}
+
+	maxLen(max: number, ..._: any): this | undefined {
+		if (String(this._value).length > max) {
+			this._invalid = `O valor informado deve ter no máximo ${max} caracteres!`;
+			return;
+		}
+		return this;
+	}
 }

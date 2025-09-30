@@ -25,7 +25,10 @@ export const getTransactionMenu: GetMenuFn<MenuNameId> = (
 					onSelect: async (model: MenuModel, view: MenuView) =>
 						getWithdrawSubMenu({ model, view, appInstance }),
 				},
-				{ name: "Transferir", onSelect() {} },
+				{
+					name: "Transferir",
+					onSelect: () => appInstance.menu.render("transfer", appInstance),
+				},
 				{
 					name: chalk.gray("Voltar"),
 					onSelect: () => appInstance.menu.render("main", appInstance),

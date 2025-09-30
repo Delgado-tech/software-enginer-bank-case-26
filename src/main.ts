@@ -7,6 +7,7 @@ import { getTransactionMenu } from "./menus/transaction.menu.js";
 import { accountsMock } from "./mocks/accounts.mock.js";
 import type { App } from "./types/App.js";
 import type { MenuNameId } from "./types/MenuList.js";
+import { getTransferMenu } from "./menus/transfer.menu.js";
 
 // inicializa as contas de usuário
 AccountsController.Instance.add(accountsMock);
@@ -29,5 +30,6 @@ const app: App<MenuNameId> = {
 app.menu.register(() => getMainMenu(app));
 app.menu.register(() => getAccountMenu(app));
 app.menu.register(() => getTransactionMenu(app));
+app.menu.register(() => getTransferMenu(app));
 
-app.menu.render("main", app);
+app.menu.render("transfer", app);

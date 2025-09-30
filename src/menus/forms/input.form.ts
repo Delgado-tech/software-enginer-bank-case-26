@@ -14,6 +14,8 @@ type InputForm = {
 	appInstance: App<MenuNameId>;
 	label: string;
 	validation?: Partial<Record<ValidationType, any>>;
+	initial?: any;
+	disabled?: boolean;
 	onCancel?: () => void;
 };
 
@@ -25,6 +27,8 @@ export const inputForm = async ({
 	label,
 	appInstance,
 	validation,
+	initial,
+	disabled = false,
 	onCancel,
 }: InputForm): Promise<InputFormReturn> => {
 	const input = (await prompt({
@@ -32,6 +36,8 @@ export const inputForm = async ({
 		name: "value",
 		message: `${label}:`,
 		prefix: ">>",
+		initial,
+		disabled,
 	}).catch(() => appInstance.onExit())) as void | PromptReturn;
 
 	if (!input || input.value.toLowerCase() === "x") {

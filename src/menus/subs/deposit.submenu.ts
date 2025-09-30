@@ -1,17 +1,12 @@
 import chalk from "chalk";
-import enq from "enquirer";
 import { AccountsController } from "../../controllers/accounts.controller.js";
 import { OperationModel } from "../../models/operation.model.js";
 import { OperationType } from "../../types/OperationType.js";
-import type { PromptReturn } from "../../types/PromptReturn.js";
-import type { GetSubMenu, SubMenuProps } from "../../types/SubMenu.js";
-import { Validate } from "../../utils/validate.js";
+import type { GetSubMenu } from "../../types/SubMenu.js";
 import { AccountView } from "../../views/account.view.js";
 import { SubMenuModel } from "../../models/submenu.model.js";
 import { confirmForm } from "../forms/confirm.form.js";
 import { inputForm } from "../forms/input.form.js";
-
-const { prompt } = enq;
 
 const accountView = new AccountView();
 
@@ -41,7 +36,7 @@ export const getDepositSubMenu: GetSubMenu = async ({
 		});
 
 		const amount = await inputForm({
-			label: "Depositar (R$):",
+			label: "Depositar (R$)",
 			appInstance,
 			validation: {
 				notEmpty: true,
@@ -50,7 +45,7 @@ export const getDepositSubMenu: GetSubMenu = async ({
 		});
 
 		if (!amount.isValid) {
-			if (!amount.value) return;
+			if (amount.value === undefined) return;
 
 			await view.message(amount.reason);
 			return getSubMenu();

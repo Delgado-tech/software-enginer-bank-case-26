@@ -7,10 +7,14 @@ import { AccountView } from "../../views/account.view.js";
 import { SubMenuModel } from "../../models/submenu.model.js";
 import { confirmForm } from "../forms/confirm.form.js";
 import { inputForm } from "../forms/input.form.js";
-
+import enq from "enquirer";
+import type { ValidationType } from "../../types/Validate.js";
+import { form } from "../forms/form.js";
+import type { Form } from "../../types/Form.js";
+const { prompt } = enq;
 const accountView = new AccountView();
 
-export const getWithdrawSubMenu: GetSubMenu = async ({
+export const getTransferPixSubMenu: GetSubMenu = async ({
 	model,
 	view,
 	appInstance,
@@ -19,41 +23,43 @@ export const getWithdrawSubMenu: GetSubMenu = async ({
 	const balance = accountView.formatBalance(account?.balance ?? 0);
 
 	const subMenu = new SubMenuModel({
-		subMenuName: "Sacar",
+		subMenuName: "PIX",
 		model,
 		view,
 		appInstance,
 	});
 
-	const getSubMenu = async () => {
-		console.clear();
-		view.renderMenuAndReturn({
-			header: subMenu.header,
-			headerColor: subMenu.headerColor,
-			content: chalk.green(`Saldo: ${balance}`),
-			endContent: chalk.gray("\n(envie [X] para cancelar)"),
-		});
+	type FormKeys = "pix" | "amount";
 
-		const amount = await inputForm({
-			label: "Sacar (R$)",
-			appInstance,
-			validation: {
-				notEmpty: true,
-				min: 1,
-				max: account?.balance,
-			},
-		});
+	const initialForm: Form<FormKeys> = {
+		pix: {
+			label: "Chave PIX",
+			value: undefined,
+			validation: { notEmpty: true, minLen: 3 },
+		},
+		amount: {
+			label: "Valor (R$)",
+			value: undefined,
+			validation: { notEmpty: true, min: 1, max: account?.balance },
+		},
+	};
 
-		if (!amount.isValid) {
-			if (amount === undefined) return;
+	const formResult = await form<FormKeys>({
+		form: initialForm,
+		view,
+		appInstance,
+		getHeader() {
+			view.renderMenuAndReturn({
+				header: subMenu.header,
+				headerColor: subMenu.headerColor,
+				content: chalk.green(`Saldo: ${balance}`),
+				endContent: chalk.gray("\n(envie [X] para cancelar)"),
+			});
+		},
+	});
 
-			await view.message(amount.reason);
-			return getSubMenu();
-		}
-
-		const confirmed = await confirmForm(appInstance);
-		if (!confirmed) return;
-
+	if (formResult) {
+		// PIX CONFIRMADO
 		const accountRecentInstance = AccountsController.Instance.get(
 			appInstance.sessionAccountId,
 		);
@@ -61,7 +67,7 @@ export const getWithdrawSubMenu: GetSubMenu = async ({
 		const newBalance = new OperationModel({
 			operation: OperationType.buy,
 			quantity: 1,
-			unitCost: Number(amount.value),
+			unitCost: Number(formResult.amount),
 		}).run(accountRecentInstance?.balance ?? 0);
 
 		AccountsController.Instance.update({
@@ -69,10 +75,8 @@ export const getWithdrawSubMenu: GetSubMenu = async ({
 			account: { balance: newBalance },
 		});
 
-		await view.message("Saque realizado com sucesso!");
-	};
-
-	await getSubMenu();
+		await view.message("PIX realizado com sucesso!");
+	}
 
 	appInstance.menu.render("transaction", appInstance);
 };

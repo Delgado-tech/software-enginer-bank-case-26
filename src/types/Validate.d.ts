@@ -3,4 +3,10 @@ export type ValidateTestResult = {
 	reason?: string;
 };
 
-export type ValidationType = "notEmpty" | "number" | "min" | "max";
+export type ValidationType =
+	| "notEmpty"
+	| "number"
+	| "min"
+	| "max"
+	| "minLen"
+	| "maxLen";
