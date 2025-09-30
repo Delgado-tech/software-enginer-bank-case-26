@@ -50,11 +50,13 @@ export class MenuCollectionController<T> {
 		//limpa o terminal ao carregar nova view
 		console.clear();
 
-		const optionName = await this._view
-			.renderMenuAndReturn(menu)
-			.catch(() => appInstance.onExit());
-
-		if (typeof optionName !== "string") return;
+		let optionName = "";
+		try {
+			optionName = await this._view.renderMenuAndReturn(menu);
+		} catch (e) {
+			appInstance.onExit();
+			return;
+		}
 
 		const option = menu.getOption(optionName);
 

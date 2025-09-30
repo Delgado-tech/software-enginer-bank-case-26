@@ -5,6 +5,7 @@ import type { App } from "../types/App.js";
 import type { GetMenuFn, MenuNameId } from "../types/MenuList.js";
 import type { MenuView } from "../views/menu.view.js";
 import { depositSubMenu } from "./sub/deposit.submenu.js";
+import { withdrawMenu } from "./sub/withdraw.submenu.js";
 
 const { prompt } = enq;
 
@@ -22,7 +23,11 @@ export const getTransactionMenu: GetMenuFn<MenuNameId> = (
 					onSelect: async (model: MenuModel, view: MenuView) =>
 						depositSubMenu({ model, view, appInstance }),
 				},
-				{ name: "Sacar", onSelect() {} },
+				{
+					name: "Sacar",
+					onSelect: async (model: MenuModel, view: MenuView) =>
+						withdrawMenu({ model, view, appInstance }),
+				},
 				{ name: "Transferir", onSelect() {} },
 				{
 					name: chalk.gray("Voltar"),
