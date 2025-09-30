@@ -32,4 +32,4 @@ app.menu.register(() => getAccountMenu(app));
 app.menu.register(() => getTransactionMenu(app));
 app.menu.register(() => getTransferMenu(app));
 
-app.menu.render("transfer", app);
+app.menu.render("main", app);

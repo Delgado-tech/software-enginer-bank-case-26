@@ -45,13 +45,16 @@ export const getDepositSubMenu: GetSubMenu = async ({
 		});
 
 		if (!amount.isValid) {
-			if (amount.value === undefined) return;
+			if (amount.value === undefined) {
+				await view.message("Operação cancelada!");
+				return;
+			}
 
 			await view.message(amount.reason);
 			return getSubMenu();
 		}
 
-		const confirmed = await confirmForm(appInstance);
+		const confirmed = await confirmForm(appInstance, view);
 		if (!confirmed) return;
 
 		const account = AccountsController.Instance.get(appInstance.sessionAccountId);

@@ -1,1 +1,1 @@
-export type PromptReturn = { value: string };
+export type PromptReturn<T = string> = { value: T };

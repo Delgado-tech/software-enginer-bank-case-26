@@ -9,7 +9,7 @@ import { form } from "../forms/form.js";
 import type { Form } from "../../types/Form.js";
 const accountView = new AccountView();
 
-export const getTransferPixSubMenu: GetSubMenu = async ({
+export const getTransferTedSubMenu: GetSubMenu = async ({
 	model,
 	view,
 	appInstance,
@@ -18,19 +18,74 @@ export const getTransferPixSubMenu: GetSubMenu = async ({
 	const balance = accountView.formatBalance(account?.balance ?? 0);
 
 	const subMenu = new SubMenuModel({
-		subMenuName: "PIX",
+		subMenuName: "TED",
 		model,
 		view,
 		appInstance,
 	});
 
-	type FormKeys = "pix" | "amount";
+	type FormKeys =
+		| "accountHolder"
+		| "cpf_cpnj"
+		| "branch"
+		| "accountNumber"
+		| "bank"
+		| "accountType"
+		| "amount";
 
 	const initialForm: Form<FormKeys> = {
-		pix: {
-			label: "Chave PIX",
+		accountHolder: {
+			label: "Titular",
 			value: undefined,
-			validation: { notEmpty: true, minLen: 3 },
+			validation: {
+				notEmpty: true,
+				minLen: 8,
+			},
+		},
+		cpf_cpnj: {
+			label: "CPF/CNPJ",
+			value: undefined,
+			validation: {
+				notEmpty: true,
+				number: true,
+				minLen: 11,
+				maxLen: 13,
+			},
+		},
+		branch: {
+			label: "Agência",
+			value: undefined,
+			validation: {
+				notEmpty: true,
+				number: true,
+				minLen: 4,
+				maxLen: 5,
+			},
+		},
+		bank: {
+			label: "Banco",
+			value: undefined,
+			validation: { notEmpty: true, number: true, minLen: 3 },
+		},
+		accountType: {
+			label: "Tipo de Conta (0 - Corrente / 1 - Poupança)",
+			value: undefined,
+			validation: {
+				notEmpty: true,
+				number: true,
+				min: 0,
+				max: 1,
+			},
+		},
+		accountNumber: {
+			label: "Conta",
+			value: undefined,
+			validation: {
+				notEmpty: true,
+				number: true,
+				minLen: 8,
+				maxLen: 11,
+			},
 		},
 		amount: {
 			label: "Valor (R$)",
@@ -70,7 +125,7 @@ export const getTransferPixSubMenu: GetSubMenu = async ({
 			account: { balance: newBalance },
 		});
 
-		await view.message("PIX realizado com sucesso!");
+		await view.message("TED realizado com sucesso!");
 	}
 
 	appInstance.menu.render("transaction", appInstance);

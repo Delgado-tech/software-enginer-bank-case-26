@@ -31,7 +31,10 @@ export const form = async <T extends string>({
 				});
 
 				if (!input.isValid) {
-					if (input.value === undefined) return;
+					if (input.value === undefined) {
+						await view.message("Operação cancelada!");
+						return;
+					}
 
 					await view.message(input.reason);
 					return getForm(form);
@@ -50,7 +53,7 @@ export const form = async <T extends string>({
 			formResult.push([key, value]);
 		}
 
-		const confirmed = await confirmForm(appInstance);
+		const confirmed = await confirmForm(appInstance, view);
 		if (confirmed) return Object.fromEntries(formResult) as FormResult<T>;
 	};
 

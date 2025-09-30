@@ -6,6 +6,7 @@ import type { MenuView } from "../views/menu.view.js";
 import { getWithdrawSubMenu } from "./subs/withdraw.submenu.js";
 import { getDepositSubMenu } from "./subs/deposit.submenu.js";
 import { getTransferPixSubMenu } from "./subs/transfer.pix.submenu.js";
+import { getTransferTedSubMenu } from "./subs/transfer.ted.submenu.js";
 
 export const getTransferMenu: GetMenuFn<MenuNameId> = (
 	appInstance: App<MenuNameId>,
@@ -17,15 +18,14 @@ export const getTransferMenu: GetMenuFn<MenuNameId> = (
 			headerColor: "#FFA500",
 			options: [
 				{
-					name: "TED",
-					onSelect() {
-						appInstance.menu.render("transaction", appInstance);
-					},
-				},
-				{
 					name: "PIX",
 					onSelect: (model: MenuModel, view: MenuView) =>
 						getTransferPixSubMenu({ model, view, appInstance }),
+				},
+				{
+					name: "TED",
+					onSelect: (model: MenuModel, view: MenuView) =>
+						getTransferTedSubMenu({ model, view, appInstance }),
 				},
 				{
 					name: chalk.gray("Voltar"),

@@ -45,13 +45,16 @@ export const getWithdrawSubMenu: GetSubMenu = async ({
 		});
 
 		if (!amount.isValid) {
-			if (amount === undefined) return;
+			if (amount.value === undefined) {
+				await view.message("Operação cancelada!");
+				return;
+			}
 
 			await view.message(amount.reason);
 			return getSubMenu();
 		}
 
-		const confirmed = await confirmForm(appInstance);
+		const confirmed = await confirmForm(appInstance, view);
 		if (!confirmed) return;
 
 		const accountRecentInstance = AccountsController.Instance.get(
