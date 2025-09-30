@@ -11,10 +11,10 @@ export class OperationModel {
 	private _unitCost: number;
 
 	@PrintPropery("Quantidade")
-	@MinMax(0, Infinity)
+	@MinMax(1, Infinity)
 	private _quantity: number;
 
-	constructor({ operation, unitCost, quantity }: OperationModelProps) {
+	constructor({ operation, unitCost, quantity = 1 }: OperationModelProps) {
 		this._operation = operation;
 		this._unitCost = unitCost;
 		this._quantity = quantity;
