@@ -24,7 +24,7 @@ export const getAccountMenu: GetMenuFn<MenuNameId> = (
 				{
 					name: chalk.gray("Voltar"),
 					onSelect: async () => {
-						await appInstance.menu.render("main");
+						await appInstance.menu.render("main", appInstance);
 					},
 				},
 			],

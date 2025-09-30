@@ -1,9 +1,7 @@
 import { MinMax } from "../decorators/min-max.decorator.js";
 import { PrintPropery } from "../decorators/print-property.js";
-import type {
-	OperationModelProps,
-	OperationType,
-} from "../types/OperationModel.js";
+import type { OperationModelProps } from "../types/OperationModel.js";
+import { OperationType } from "../types/OperationType.js";
 
 export class OperationModel {
 	private _operation: OperationType;
@@ -20,6 +18,11 @@ export class OperationModel {
 		this._operation = operation;
 		this._unitCost = unitCost;
 		this._quantity = quantity;
+	}
+
+	public run(currentValue: number) {
+		const dx = this._operation === OperationType.buy ? -1 : 1;
+		return currentValue + this._unitCost * this.quantity * dx;
 	}
 
 	public get operation(): OperationType {

@@ -1,4 +1,5 @@
 import { MenuModel } from "../models/menu.model.js";
+import type { App } from "../types/App.js";
 import type { MenuItem } from "../types/MenuList.js";
 import { MenuView } from "../views/menu.view.js";
 
@@ -29,37 +30,46 @@ export class MenuCollectionController<T> {
 		}
 	}
 
-	async render(id: T | undefined) {
+	async render(id: T | undefined, appInstance: App<T>) {
 		if (!this._lastMenuId && !id) return;
 
 		const menuGetter = this._menuList.get(id);
 		if (!menuGetter) {
-			await this._view.message("Não foi possível encontrar o menu selecionado!");
-			this.goBack();
+			await this._view
+				.message("Não foi possível encontrar o menu selecionado!")
+				.catch(() => appInstance.onExit());
+			this.goBack(appInstance);
 			return;
 		}
 
-		const { menu } = menuGetter();
+		const { menu: menuProps } = menuGetter();
 		this._lastMenuId = id;
+
+		const menu = new MenuModel(menuProps);
 
 		//limpa o terminal ao carregar nova view
 		console.clear();
 
-		const optionName = await this._view.renderMenuAndReturn(menu);
-		const option = new MenuModel(menu).getOption(optionName);
+		const optionName = await this._view
+			.renderMenuAndReturn(menu)
+			.catch(() => appInstance.onExit());
+
+		if (typeof optionName !== "string") return;
+
+		const option = menu.getOption(optionName);
 
 		if (!option) {
 			await this._view.message("");
-			this.render(id);
+			this.render(id, appInstance);
 			return;
 		}
 
 		option.onSelect(menu, this._view);
 	}
 
-	goBack(): void {
+	goBack(appInstance: App<T>): void {
 		if (this._lastMenuId) {
-			this.render(this._lastMenuId);
+			this.render(this._lastMenuId, appInstance);
 		}
 	}
 }

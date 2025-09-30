@@ -3,10 +3,10 @@ import { AccountsController } from "./controllers/accounts.controller.js";
 import { MenuCollectionController } from "./controllers/menu-collection.controller.js";
 import { getAccountMenu } from "./menus/account.menu.js";
 import { getMainMenu } from "./menus/main.menu.js";
+import { getTransactionMenu } from "./menus/transaction.menu.js";
 import { accountsMock } from "./mocks/accounts.mock.js";
 import type { App } from "./types/App.js";
 import type { MenuNameId } from "./types/MenuList.js";
-import { getTransactionMenu } from "./menus/transaction.menu.js";
 
 // inicializa as contas de usuário
 AccountsController.Instance.add(accountsMock);
@@ -30,4 +30,4 @@ app.menu.register(() => getMainMenu(app));
 app.menu.register(() => getAccountMenu(app));
 app.menu.register(() => getTransactionMenu(app));
 
-app.menu.render("transaction").catch(() => app.onExit?.());
+app.menu.render("main", app);

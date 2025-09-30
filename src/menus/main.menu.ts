@@ -12,12 +12,12 @@ export const getMainMenu: GetMenuFn<MenuNameId> = (
 			options: [
 				{
 					name: "Conta",
-					onSelect: () => appInstance.menu.render("account"),
+					onSelect: () => appInstance.menu.render("account", appInstance),
 				},
 				{ name: "Extrato", onSelect() {} },
 				{
 					name: "Transação",
-					onSelect: () => appInstance.menu.render("transaction"),
+					onSelect: () => appInstance.menu.render("transaction", appInstance),
 				},
 				{
 					name: chalk.gray("Sair"),

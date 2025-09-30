@@ -39,10 +39,13 @@ export class Validate {
 	}
 
 	number(..._: any): this | undefined {
-		if (
-			isNaN(parseFloat(this._value)) ||
-			String(this._value).match(/[^0-9\.-]/g)
-		) {
+		// regex:
+		// se contiver "-" que seja apenas uma vez e no inicio e deve conter pelo menos um número após ela
+		// se contiver "." que seja entre dois numeros e não se repita
+		// deve conter apenas digitos
+		const reg = new RegExp(/^[-]?\d+(\.\d+)?$/);
+
+		if (isNaN(parseFloat(this._value)) || !String(this._value).match(reg)) {
 			this._invalid = `O valor informado deve ser um número válido!`;
 			return;
 		}
