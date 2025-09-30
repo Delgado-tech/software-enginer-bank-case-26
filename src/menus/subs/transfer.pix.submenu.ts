@@ -51,6 +51,7 @@ export const getTransferPixSubMenu: GetSubMenu = async ({
 				endContent: chalk.gray("\n(envie [X] para cancelar)"),
 			});
 		},
+		getConfirmBeforeText() {},
 	});
 
 	if (formResult) {
@@ -73,5 +74,5 @@ export const getTransferPixSubMenu: GetSubMenu = async ({
 		await view.message("PIX realizado com sucesso!");
 	}
 
-	appInstance.menu.render("transaction", appInstance);
+	appInstance.menu.render("transfer", appInstance);
 };

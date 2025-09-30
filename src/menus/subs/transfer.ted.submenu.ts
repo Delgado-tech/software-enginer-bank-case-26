@@ -7,6 +7,8 @@ import { AccountView } from "../../views/account.view.js";
 import { SubMenuModel } from "../../models/submenu.model.js";
 import { form } from "../forms/form.js";
 import type { Form } from "../../types/Form.js";
+import { TaxModel } from "../../models/tax.model.js";
+import { TED_TAX } from "../../constants.js";
 
 const accountView = new AccountView();
 type FormKeys =
@@ -95,7 +97,7 @@ export const getTransferTedSubMenu: GetSubMenu = async ({
 	};
 
 	const formResult = await form({
-		form: initialForm,
+		form: { amount: { label: "Valor (R$)", value: undefined } },
 		view,
 		appInstance,
 		getHeader() {
@@ -105,6 +107,32 @@ export const getTransferTedSubMenu: GetSubMenu = async ({
 				content: chalk.green(`Saldo: ${balance}`),
 				endContent: chalk.gray("\n(envie [X] para cancelar)"),
 			});
+		},
+		getConfirmBeforeText(formResult) {
+			if (!formResult) return;
+			const amount = Number(formResult.amount);
+			const tax = new TaxModel().getTaxPercent(amount, amount + TED_TAX);
+
+			let taxColor: string;
+
+			if (tax >= 100) {
+				taxColor = "#FF0000"; // vermelho
+			} else if (tax >= 50) {
+				taxColor = "#F18D0A"; // laranja escuro
+			} else if (tax >= 15) {
+				taxColor = "#F1CF0A"; // amarelo
+			} else if (tax >= 3) {
+				taxColor = "#FFFFFF"; // branco
+			} else {
+				taxColor = "#00FF00"; // verde (default)
+			}
+
+			console.log(
+				chalk.gray(
+					`\n\nPara transações TED é cobrado um taxa de ${chalk.white(accountView.formatBalance(TED_TAX))}`,
+					`\nIsso representa ${chalk.hex(taxColor)(tax.toFixed(2) + "%")} do valor de ${chalk.white(accountView.formatBalance(amount))}`,
+				),
+			);
 		},
 	});
 
@@ -118,7 +146,7 @@ export const getTransferTedSubMenu: GetSubMenu = async ({
 			operation: OperationType.buy,
 			quantity: 1,
 			unitCost: Number(formResult.amount),
-		}).run(accountRecentInstance?.balance ?? 0);
+		}).run((accountRecentInstance?.balance ?? 0) + TED_TAX);
 
 		AccountsController.Instance.update({
 			id: appInstance.sessionAccountId,
@@ -128,5 +156,5 @@ export const getTransferTedSubMenu: GetSubMenu = async ({
 		await view.message("TED realizado com sucesso!");
 	}
 
-	appInstance.menu.render("transaction", appInstance);
+	appInstance.menu.render("transfer", appInstance);
 };

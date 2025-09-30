@@ -1,3 +1,5 @@
+import type { ConfirmFormProps } from "./ConfirmForm.js";
+
 export type FormItem = {
 	label: string;
 	value: string | undefined;
@@ -14,5 +16,6 @@ export type FormProps<T extends string> = {
 	form: Form<T>;
 	view: MenuView;
 	appInstance: App<MenuNameId>;
+	getConfirmBeforeText: ConfirmFormProps<T>["getBeforeText"];
 	getHeader: () => void;
 };

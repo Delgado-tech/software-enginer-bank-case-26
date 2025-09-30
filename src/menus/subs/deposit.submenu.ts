@@ -47,6 +47,7 @@ export const getDepositSubMenu: GetSubMenu = async ({
 				endContent: chalk.gray("\n(envie [X] para cancelar)"),
 			});
 		},
+		getConfirmBeforeText() {},
 	});
 
 	if (formResult) {

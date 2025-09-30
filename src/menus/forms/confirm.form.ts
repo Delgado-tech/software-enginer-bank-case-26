@@ -11,14 +11,17 @@ const { prompt } = enq;
 
 type ConfirmOption = "Confirmar" | "Cancelar";
 
-export const confirmForm = async ({
+export const confirmForm = async <T>({
 	view,
 	appInstance,
-}: ConfirmFormProps): Promise<boolean> => {
+	getBeforeText,
+}: ConfirmFormProps<T>): Promise<boolean> => {
 	const choices: PromptChoice<ConfirmOption>[] = [
 		"Confirmar",
 		{ name: "Cancelar", message: chalk.gray("Cancelar") },
 	];
+
+	getBeforeText();
 
 	const confirm = (await prompt({
 		type: "select",

@@ -13,6 +13,7 @@ export const form = async <T extends string>({
 	form,
 	view,
 	appInstance,
+	getConfirmBeforeText,
 	getHeader,
 }: FormProps<T>): FormReturn<T> => {
 	const getForm = async (form: Form<T>): FormReturn<T> => {
@@ -53,8 +54,14 @@ export const form = async <T extends string>({
 			formResult.push([key, value]);
 		}
 
-		const confirmed = await confirmForm({ appInstance, view });
-		if (confirmed) return Object.fromEntries(formResult) as FormResult<T>;
+		const formResultObj = Object.fromEntries(formResult) as FormResult<T>;
+
+		const confirmed = await confirmForm({
+			appInstance,
+			view,
+			getBeforeText: () => getConfirmBeforeText(formResultObj),
+		});
+		if (confirmed) return formResultObj;
 	};
 
 	return await getForm(form);

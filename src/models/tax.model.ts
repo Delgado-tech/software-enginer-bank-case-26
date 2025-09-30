@@ -10,7 +10,7 @@ export class TaxModel {
 	 *
 	 * @param tax - taxa a ser criada para aplicar em diferentes valores
 	 */
-	constructor(tax: number) {
+	constructor(tax: number = 0) {
 		this._tax = tax;
 	}
 
@@ -43,7 +43,7 @@ export class TaxModel {
 	 * @param afterAmount - valor com a taxa aplicada
 	 * @returns valor da taxa aplicada de um valor para o outro
 	 */
-	getTax(beforeAmount: number, afterAmount: number): number {
-		return (beforeAmount * 100) / afterAmount;
+	getTaxPercent(beforeAmount: number, afterAmount: number): number {
+		return ((afterAmount - beforeAmount) / beforeAmount) * 100;
 	}
 }
