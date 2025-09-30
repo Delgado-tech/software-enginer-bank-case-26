@@ -3,8 +3,6 @@ import { MenuModel } from "../models/menu.model.js";
 import type { App } from "../types/App.js";
 import type { GetMenuFn, MenuNameId } from "../types/MenuList.js";
 import type { MenuView } from "../views/menu.view.js";
-import { getWithdrawSubMenu } from "./subs/withdraw.submenu.js";
-import { getDepositSubMenu } from "./subs/deposit.submenu.js";
 import { getTransferPixSubMenu } from "./subs/transfer.pix.submenu.js";
 import { getTransferTedSubMenu } from "./subs/transfer.ted.submenu.js";
 

@@ -1,5 +1,6 @@
 import type { AccountModelProps } from "../types/AccountModel.js";
 
+// dados fictícios
 export const accountsMock: AccountModelProps[] = [
 	{
 		accountHolder: "Leonardo Delgado",

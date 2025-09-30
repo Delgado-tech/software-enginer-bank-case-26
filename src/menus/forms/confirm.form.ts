@@ -1,9 +1,6 @@
 import chalk from "chalk";
 import enq from "enquirer";
 import type { PromptReturn } from "../../types/PromptReturn.js";
-import type { App } from "../../types/App.js";
-import type { MenuNameId } from "../../types/MenuList.js";
-import type { MenuView } from "../../views/menu.view.js";
 import type { PromptChoice } from "../../types/PromptChoice.js";
 import type { ConfirmFormProps } from "../../types/ConfirmForm.js";
 

@@ -97,7 +97,7 @@ export const getTransferTedSubMenu: GetSubMenu = async ({
 	};
 
 	const formResult = await form({
-		form: { amount: { label: "Valor (R$)", value: undefined } },
+		form: initialForm,
 		view,
 		appInstance,
 		getHeader() {
@@ -143,7 +143,7 @@ export const getTransferTedSubMenu: GetSubMenu = async ({
 		);
 
 		const newBalance = new OperationModel({
-			operation: OperationType.buy,
+			operation: OperationType.remove,
 			quantity: 1,
 			unitCost: Number(formResult.amount),
 		}).run((accountRecentInstance?.balance ?? 0) + TED_TAX);

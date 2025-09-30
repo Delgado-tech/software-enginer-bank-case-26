@@ -54,7 +54,7 @@ export const getDepositSubMenu: GetSubMenu = async ({
 		const account = AccountsController.Instance.get(appInstance.sessionAccountId);
 
 		const newBalance = new OperationModel({
-			operation: OperationType.sell,
+			operation: OperationType.add,
 			quantity: 1,
 			unitCost: Number(formResult.amount),
 		}).run(account?.balance ?? 0);

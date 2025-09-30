@@ -61,7 +61,7 @@ export const getTransferPixSubMenu: GetSubMenu = async ({
 		);
 
 		const newBalance = new OperationModel({
-			operation: OperationType.buy,
+			operation: OperationType.remove,
 			quantity: 1,
 			unitCost: Number(formResult.amount),
 		}).run(accountRecentInstance?.balance ?? 0);
