@@ -53,7 +53,7 @@ export const form = async <T extends string>({
 			formResult.push([key, value]);
 		}
 
-		const confirmed = await confirmForm(appInstance, view);
+		const confirmed = await confirmForm({ appInstance, view });
 		if (confirmed) return Object.fromEntries(formResult) as FormResult<T>;
 	};
 

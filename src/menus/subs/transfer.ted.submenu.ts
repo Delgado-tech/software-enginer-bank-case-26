@@ -7,7 +7,16 @@ import { AccountView } from "../../views/account.view.js";
 import { SubMenuModel } from "../../models/submenu.model.js";
 import { form } from "../forms/form.js";
 import type { Form } from "../../types/Form.js";
+
 const accountView = new AccountView();
+type FormKeys =
+	| "accountHolder"
+	| "cpf_cpnj"
+	| "branch"
+	| "accountNumber"
+	| "bank"
+	| "accountType"
+	| "amount";
 
 export const getTransferTedSubMenu: GetSubMenu = async ({
 	model,
@@ -23,15 +32,6 @@ export const getTransferTedSubMenu: GetSubMenu = async ({
 		view,
 		appInstance,
 	});
-
-	type FormKeys =
-		| "accountHolder"
-		| "cpf_cpnj"
-		| "branch"
-		| "accountNumber"
-		| "bank"
-		| "accountType"
-		| "amount";
 
 	const initialForm: Form<FormKeys> = {
 		accountHolder: {

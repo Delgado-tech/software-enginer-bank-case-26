@@ -5,15 +5,16 @@ import type { App } from "../../types/App.js";
 import type { MenuNameId } from "../../types/MenuList.js";
 import type { MenuView } from "../../views/menu.view.js";
 import type { PromptChoice } from "../../types/PromptChoice.js";
+import type { ConfirmFormProps } from "../../types/ConfirmForm.js";
 
 const { prompt } = enq;
 
 type ConfirmOption = "Confirmar" | "Cancelar";
 
-export const confirmForm = async (
-	appInstance: App<MenuNameId>,
-	view: MenuView,
-): Promise<boolean> => {
+export const confirmForm = async ({
+	view,
+	appInstance,
+}: ConfirmFormProps): Promise<boolean> => {
 	const choices: PromptChoice<ConfirmOption>[] = [
 		"Confirmar",
 		{ name: "Cancelar", message: chalk.gray("Cancelar") },

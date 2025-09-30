@@ -5,10 +5,11 @@ import { OperationType } from "../../types/OperationType.js";
 import type { GetSubMenu } from "../../types/SubMenu.js";
 import { AccountView } from "../../views/account.view.js";
 import { SubMenuModel } from "../../models/submenu.model.js";
-import { confirmForm } from "../forms/confirm.form.js";
-import { inputForm } from "../forms/input.form.js";
+import { form } from "../forms/form.js";
+import type { Form } from "../../types/Form.js";
 
 const accountView = new AccountView();
+type FormKeys = "amount";
 
 export const getWithdrawSubMenu: GetSubMenu = async ({
 	model,
@@ -25,38 +26,29 @@ export const getWithdrawSubMenu: GetSubMenu = async ({
 		appInstance,
 	});
 
-	const getSubMenu = async () => {
-		console.clear();
-		view.renderMenuAndReturn({
-			header: subMenu.header,
-			headerColor: subMenu.headerColor,
-			content: chalk.green(`Saldo: ${balance}`),
-			endContent: chalk.gray("\n(envie [X] para cancelar)"),
-		});
-
-		const amount = await inputForm({
+	const initialForm: Form<FormKeys> = {
+		amount: {
 			label: "Sacar (R$)",
-			appInstance,
-			validation: {
-				notEmpty: true,
-				min: 1,
-				max: account?.balance,
-			},
-		});
+			value: undefined,
+			validation: { notEmpty: true, min: 1, max: account?.balance },
+		},
+	};
 
-		if (!amount.isValid) {
-			if (amount.value === undefined) {
-				await view.message("Operação cancelada!");
-				return;
-			}
+	const formResult = await form({
+		form: initialForm,
+		view,
+		appInstance,
+		getHeader() {
+			view.renderMenuAndReturn({
+				header: subMenu.header,
+				headerColor: subMenu.headerColor,
+				content: chalk.green(`Saldo: ${balance}`),
+				endContent: chalk.gray("\n(envie [X] para cancelar)"),
+			});
+		},
+	});
 
-			await view.message(amount.reason);
-			return getSubMenu();
-		}
-
-		const confirmed = await confirmForm(appInstance, view);
-		if (!confirmed) return;
-
+	if (formResult) {
 		const accountRecentInstance = AccountsController.Instance.get(
 			appInstance.sessionAccountId,
 		);
@@ -64,7 +56,7 @@ export const getWithdrawSubMenu: GetSubMenu = async ({
 		const newBalance = new OperationModel({
 			operation: OperationType.buy,
 			quantity: 1,
-			unitCost: Number(amount.value),
+			unitCost: Number(formResult.amount),
 		}).run(accountRecentInstance?.balance ?? 0);
 
 		AccountsController.Instance.update({
@@ -73,9 +65,7 @@ export const getWithdrawSubMenu: GetSubMenu = async ({
 		});
 
 		await view.message("Saque realizado com sucesso!");
-	};
-
-	await getSubMenu();
+	}
 
 	appInstance.menu.render("transaction", appInstance);
 };

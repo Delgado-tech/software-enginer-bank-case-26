@@ -7,7 +7,9 @@ import { AccountView } from "../../views/account.view.js";
 import { SubMenuModel } from "../../models/submenu.model.js";
 import { form } from "../forms/form.js";
 import type { Form } from "../../types/Form.js";
+
 const accountView = new AccountView();
+type FormKeys = "pix" | "amount";
 
 export const getTransferPixSubMenu: GetSubMenu = async ({
 	model,
@@ -23,8 +25,6 @@ export const getTransferPixSubMenu: GetSubMenu = async ({
 		view,
 		appInstance,
 	});
-
-	type FormKeys = "pix" | "amount";
 
 	const initialForm: Form<FormKeys> = {
 		pix: {
