@@ -130,7 +130,7 @@ export const getTransferTedSubMenu: GetSubMenu = async ({
 
 			console.log(
 				chalk.gray(
-					`\n\nPara transações TED é cobrado um taxa de ${chalk.white(accountView.formatBalance(TED_TAX))}`,
+					`\n\nPara transações TED é cobrado uma taxa de ${chalk.white(accountView.formatBalance(TED_TAX))}`,
 					`\nIsso representa ${chalk.hex(taxColor)(tax.toFixed(2) + "%")} do valor de ${chalk.white(accountView.formatBalance(amount))}`,
 				),
 			);
