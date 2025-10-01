@@ -6,7 +6,6 @@ import type {
 	AccountItemPartial,
 	AccountTransact,
 } from "../types/Accounts.js";
-import { OperationType } from "../types/OperationType.js";
 
 export class AccountsController {
 	private readonly _accountList: Map<number, AccountModel>;

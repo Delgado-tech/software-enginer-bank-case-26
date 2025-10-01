@@ -10,7 +10,7 @@ export const getAccountMenu: GetMenuFn<MenuNameId> = (
 	const getAccountInfo = () => {
 		const accountView = new AccountView();
 
-		return accountView.renderAccountInfo(
+		return accountView.getAccountInfo(
 			AccountsController.Instance.get(appInstance.sessionAccountId),
 		);
 	};

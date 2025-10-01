@@ -9,6 +9,7 @@ import { form } from "../forms/form.js";
 import type { Form } from "../../types/Form.js";
 import { TaxModel } from "../../models/tax.model.js";
 import { TED_TAX } from "../../constants.js";
+import { BankStatementsController } from "../../controllers/bankStatements.controller.js";
 
 const accountView = new AccountView();
 type FormKeys =
@@ -137,15 +138,31 @@ export const getTransferTedSubMenu: GetSubMenu = async ({
 	});
 
 	if (formResult) {
+		const amount = Number(formResult.amount) + TED_TAX;
+
 		const sucess = AccountsController.Instance.transact({
 			id: appInstance.sessionAccountId,
-			amount: Number(formResult.amount) + TED_TAX,
+			amount: amount,
 			operation: OperationType.remove,
 		});
 
 		const msg = sucess
 			? "TED realizado com sucesso!"
 			: "Ocorreu um erro ao realizar a operação, tente novamente mais tarde";
+
+		if (sucess) {
+			BankStatementsController.Instance.add([
+				{
+					accountId: appInstance.sessionAccountId,
+					amount,
+					date: new Date(),
+					institution: `Banco (${formResult.bank})`,
+					payeeName: formResult.accountHolder,
+					type: "out",
+					description: "Transação TED",
+				},
+			]);
+		}
 
 		await view.message(msg);
 	}

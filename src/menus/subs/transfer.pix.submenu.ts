@@ -7,6 +7,7 @@ import { AccountView } from "../../views/account.view.js";
 import { SubMenuModel } from "../../models/submenu.model.js";
 import { form } from "../forms/form.js";
 import type { Form } from "../../types/Form.js";
+import { BankStatementsController } from "../../controllers/bankStatements.controller.js";
 
 const accountView = new AccountView();
 type FormKeys = "pix" | "amount";
@@ -55,15 +56,31 @@ export const getTransferPixSubMenu: GetSubMenu = async ({
 	});
 
 	if (formResult) {
+		const amount = Number(formResult.amount);
+
 		const sucess = AccountsController.Instance.transact({
 			id: appInstance.sessionAccountId,
-			amount: Number(formResult.amount),
 			operation: OperationType.remove,
+			amount,
 		});
 
 		const msg = sucess
 			? "PIX realizado com sucesso!"
 			: "Ocorreu um erro ao realizar a operação, tente novamente mais tarde";
+
+		if (sucess) {
+			BankStatementsController.Instance.add([
+				{
+					accountId: appInstance.sessionAccountId,
+					amount,
+					date: new Date(),
+					institution: `Nubank`,
+					payeeName: `Chave: ${formResult.pix}`,
+					type: "out",
+					description: "Transação PIX",
+				},
+			]);
+		}
 
 		await view.message(msg);
 	}

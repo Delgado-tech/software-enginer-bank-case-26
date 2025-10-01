@@ -1,4 +1,5 @@
 import type { SubMenuProps } from "../types/SubMenu.js";
+import { sanitizeSpaces } from "../utils/sanitizeSpaces.js";
 import { MenuModel } from "./menu.model.js";
 
 export class SubMenuModel extends MenuModel {
@@ -11,11 +12,13 @@ export class SubMenuModel extends MenuModel {
 		this._subMenuName = subMenuName ?? "";
 	}
 
+	// GETTER
 	public get subMenuName(): string {
 		return this._subMenuName;
 	}
 
+	// SETTER
 	public set subMenuName(setter: string) {
-		this._subMenuName = setter;
+		this._subMenuName = sanitizeSpaces(setter);
 	}
 }

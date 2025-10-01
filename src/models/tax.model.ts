@@ -14,14 +14,6 @@ export class TaxModel {
 		this._tax = tax;
 	}
 
-	public get tax(): number {
-		return this._tax;
-	}
-
-	public set tax(setter: number) {
-		this._tax = setter;
-	}
-
 	/**
 	 * @param amount - valor a ser aplicado a taxa
 	 *
@@ -45,5 +37,15 @@ export class TaxModel {
 	 */
 	getTaxPercent(beforeAmount: number, afterAmount: number): number {
 		return ((afterAmount - beforeAmount) / beforeAmount) * 100;
+	}
+
+	// GETTER
+	public get tax(): number {
+		return this._tax;
+	}
+
+	// SETTER
+	public set tax(setter: number) {
+		this._tax = setter;
 	}
 }

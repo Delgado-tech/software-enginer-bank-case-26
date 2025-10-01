@@ -1,6 +1,7 @@
 import { MinMaxLength } from "../decorators/min-max-length.decorator.js";
 import { PrintPropery } from "../decorators/print-property.js";
 import type { AccountModelProps, AccountType } from "../types/AccountModel.js";
+import { sanitizeSpaces } from "../utils/sanitizeSpaces.js";
 
 export class AccountModel {
 	@PrintPropery("Titular")
@@ -47,58 +48,57 @@ export class AccountModel {
 		this._balance = balance;
 	}
 
+	// GETTERS
 	public get accountHolder(): string {
 		return this._accountHolder;
-	}
-
-	public set accountHolder(setter: string) {
-		// Remove espaços extras
-		setter = setter.replace(/\s{2,}/g, " ").trim();
-		this._accountHolder = setter;
 	}
 
 	public get branch(): string {
 		return this._branch;
 	}
 
-	public set branch(setter: string) {
-		this._branch = setter;
-	}
-
 	public get accountNumber(): string {
 		return this._accountNumber;
-	}
-
-	public set accountNumber(setter: string) {
-		this._accountNumber = setter;
 	}
 
 	public get bank(): string {
 		return this._bank;
 	}
 
-	public set bank(setter: string) {
-		this._bank = setter;
-	}
-
 	public get cpf(): string {
 		return this._cpf;
-	}
-
-	public set cpf(setter: string) {
-		this._cpf = setter;
 	}
 
 	public get accountType(): AccountType {
 		return this._accountType;
 	}
 
-	public set accountType(setter: AccountType) {
-		this._accountType = setter;
-	}
-
 	public get balance(): number {
 		return this._balance;
+	}
+
+	// SETTERS
+	public set accountHolder(setter: string) {
+		this._accountHolder = sanitizeSpaces(setter);
+	}
+
+	public set branch(setter: string) {
+		this._branch = sanitizeSpaces(setter);
+	}
+	public set accountNumber(setter: string) {
+		this._accountNumber = sanitizeSpaces(setter);
+	}
+
+	public set bank(setter: string) {
+		this._bank = sanitizeSpaces(setter);
+	}
+
+	public set cpf(setter: string) {
+		this._cpf = sanitizeSpaces(setter);
+	}
+
+	public set accountType(setter: AccountType) {
+		this._accountType = setter;
 	}
 
 	public set balance(setter: number) {

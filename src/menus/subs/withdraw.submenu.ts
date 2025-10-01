@@ -7,6 +7,7 @@ import { AccountView } from "../../views/account.view.js";
 import { SubMenuModel } from "../../models/submenu.model.js";
 import { form } from "../forms/form.js";
 import type { Form } from "../../types/Form.js";
+import { BankStatementsController } from "../../controllers/bankStatements.controller.js";
 
 const accountView = new AccountView();
 type FormKeys = "amount";
@@ -50,15 +51,34 @@ export const getWithdrawSubMenu: GetSubMenu = async ({
 	});
 
 	if (formResult) {
-		const sucess = AccountsController.Instance.transact({
+		const amount = Number(formResult.amount);
+		const accounts = AccountsController.Instance;
+
+		const account = accounts.get(appInstance.sessionAccountId);
+
+		const sucess = accounts.transact({
 			id: appInstance.sessionAccountId,
-			amount: Number(formResult.amount),
 			operation: OperationType.remove,
+			amount,
 		});
 
 		const msg = sucess
 			? "Saque realizado com sucesso!"
 			: "Ocorreu um erro ao realizar a operação, tente novamente mais tarde";
+
+		if (sucess) {
+			BankStatementsController.Instance.add([
+				{
+					accountId: appInstance.sessionAccountId,
+					amount,
+					date: new Date(),
+					institution: "Nubank",
+					payeeName: account!.accountHolder,
+					type: "out",
+					description: "Saque",
+				},
+			]);
+		}
 
 		await view.message(msg);
 	}

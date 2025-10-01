@@ -8,9 +8,15 @@ import { accountsMock } from "./mocks/accounts.mock.js";
 import type { App } from "./types/App.js";
 import type { MenuNameId } from "./types/MenuList.js";
 import { getTransferMenu } from "./menus/transfer.menu.js";
+import { select } from "@inquirer/prompts";
+import { BankStatementsController } from "./controllers/bankStatements.controller.js";
+import { bankStatementMock } from "./mocks/bank-statement.mock.js";
+import { BankStatementView } from "./views/bank-statement.view.js";
+import { BankStatementModel } from "./models/bank-statement.model.js";
 
 // inicializa as contas de usuário
 AccountsController.Instance.add(accountsMock);
+BankStatementsController.Instance.add(bankStatementMock);
 
 const app: App<MenuNameId> = {
 	sessionAccountId: 0,

@@ -2,7 +2,7 @@ import type { AccountModel } from "../models/account.model.js";
 import type { AccountType } from "../types/AccountModel.js";
 
 export class AccountView {
-	renderAccountInfo(model?: AccountModel): string {
+	getAccountInfo(model?: AccountModel): string {
 		if (!model) return "Conta de usuário não encontrada!";
 
 		let info;

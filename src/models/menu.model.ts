@@ -1,4 +1,5 @@
 import type { MenuModelProps, MenuOption } from "../types/MenuModel.js";
+import { sanitizeSpaces } from "../utils/sanitizeSpaces.js";
 
 export class MenuModel {
 	protected _options: MenuOption[];
@@ -35,40 +36,42 @@ export class MenuModel {
 		return this._options.find((op) => op.name === name);
 	}
 
+	// GETTERS
 	public get options(): MenuOption[] {
 		return this._options;
-	}
-
-	public set options(setter: MenuOption[]) {
-		this._options = setter;
 	}
 
 	public get header(): string {
 		return this._header;
 	}
 
-	public set header(setter: string) {
-		this._header = setter;
-	}
-
 	public get content(): string | undefined {
 		return this._content;
-	}
-
-	public set content(setter: string) {
-		this._content = setter;
 	}
 
 	public get endContent(): string | undefined {
 		return this._endContent;
 	}
 
-	public set endContent(setter: string) {
-		this._endContent = setter;
-	}
-
 	public get headerColor(): string {
 		return this._headerColor;
+	}
+
+	// SETTERS
+	public set options(setter: MenuOption[]) {
+		this._options = setter;
+	}
+
+	public set header(setter: string) {
+		this._header = sanitizeSpaces(setter);
+	}
+
+	public set content(setter: string) {
+		this._content = sanitizeSpaces(setter);
+	}
+
+	public set endContent(setter: string) {
+		this._endContent = sanitizeSpaces(setter);
 	}
 
 	public set headerColor(setter: string) {

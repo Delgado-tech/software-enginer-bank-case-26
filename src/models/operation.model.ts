@@ -25,24 +25,26 @@ export class OperationModel {
 		return currentValue + this._unitCost * this.quantity * dx;
 	}
 
+	// GETTERS
 	public get operation(): OperationType {
 		return this._operation;
-	}
-
-	public set operation(setter: OperationType) {
-		this._operation = setter;
 	}
 
 	public get unitCost(): number {
 		return this._unitCost;
 	}
 
-	public set unitCost(setter: number) {
-		this._unitCost = setter;
-	}
-
 	public get quantity(): number {
 		return this._quantity;
+	}
+
+	//SETTERS
+	public set operation(setter: OperationType) {
+		this._operation = setter;
+	}
+
+	public set unitCost(setter: number) {
+		this._unitCost = setter;
 	}
 
 	public set quantity(setter: number) {

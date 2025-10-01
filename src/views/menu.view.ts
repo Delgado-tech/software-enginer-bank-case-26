@@ -53,7 +53,7 @@ export class MenuView {
 		await this.waitForKeypress();
 	}
 
-	private toHeader(header: string): string {
+	toHeader(header: string): string {
 		const hr = `\n${"=".repeat(30)}\n`;
 		return `${hr}${header}${hr}`;
 	}
