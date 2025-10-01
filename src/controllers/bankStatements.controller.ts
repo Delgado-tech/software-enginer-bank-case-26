@@ -5,6 +5,13 @@ import type {
 	BankStatementItemPartial,
 } from "../types/BankStatements.js";
 
+/**
+ * Controlador responsável por gerenciar os extratos bancários da aplicação.
+ *
+ * - Implementa o padrão Singleton para garantir apenas uma instância global.
+ * - Permite criar, atualizar, buscar, listar e remover extratos bancários.
+ * - Internamente armazena os extratos em um `Map<number, BankStatementModel>`.
+ */
 export class BankStatementsController {
 	private readonly _bsList: Map<number, BankStatementModel>;
 	private currentId: number = 0;
@@ -27,6 +34,12 @@ export class BankStatementsController {
 		return this.currentId++;
 	}
 
+	/**
+	 * Retorna todos os extratos associados a uma conta específica.
+	 *
+	 * @param {number | undefined} accountId - Identificador da conta.
+	 * @returns {BankStatementItem[]} Lista de extratos da conta.
+	 */
 	getAll(accountId: number | undefined): BankStatementItem[] {
 		return Array.from(this._bsList, ([id, bankStatement]) => ({
 			id,
@@ -34,6 +47,13 @@ export class BankStatementsController {
 		})).filter((bs) => bs.bankStatement.accountId === accountId);
 	}
 
+	/**
+	 * Retorna um extrato específico de uma conta.
+	 *
+	 * @param {number | undefined} accountId - Identificador da conta.
+	 * @param {number} id - Identificador do extrato.
+	 * @returns {BankStatementModel | undefined} O extrato encontrado ou `undefined`.
+	 */
 	get(
 		accountId: number | undefined,
 		id: number,

@@ -2,12 +2,23 @@ import chalk from "chalk";
 import enq from "enquirer";
 import type { PromptReturn } from "../../types/PromptReturn.js";
 import type { PromptChoice } from "../../types/PromptChoice.js";
-import type { ConfirmFormProps } from "../../types/ConfirmForm.js";
+import type {
+	ConfirmFormProps,
+	ConfirmOption,
+} from "../../types/ConfirmForm.js";
 
 const { prompt } = enq;
 
-type ConfirmOption = "Confirmar" | "Cancelar";
-
+/**
+ * Exibe um prompt de confirmação no terminal usando `enquirer`.
+ *
+ * Mostra uma mensagem customizável antes da confirmação (`getBeforeText`)
+ * e permite ao usuário escolher entre **Confirmar** ou **Cancelar**.
+ *
+ * - Se o usuário cancelar ou encerrar a operação, uma mensagem é exibida
+ *   e a função retorna `false`.
+ * - Se o usuário confirmar, a função retorna `true`.
+ */
 export const confirmForm = async <T>({
 	view,
 	appInstance,

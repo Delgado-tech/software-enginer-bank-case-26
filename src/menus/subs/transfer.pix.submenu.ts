@@ -58,6 +58,7 @@ export const getTransferPixSubMenu: GetSubMenu = async ({
 	if (formResult) {
 		const amount = Number(formResult.amount);
 
+		// realiza transação de remoção de valor da conta
 		const sucess = AccountsController.Instance.transact({
 			id: appInstance.sessionAccountId,
 			operation: OperationType.remove,
@@ -69,6 +70,7 @@ export const getTransferPixSubMenu: GetSubMenu = async ({
 			: "Ocorreu um erro ao realizar a operação, tente novamente mais tarde";
 
 		if (sucess) {
+			// registra no extrato a operação realizada
 			BankStatementsController.Instance.add([
 				{
 					accountId: appInstance.sessionAccountId,

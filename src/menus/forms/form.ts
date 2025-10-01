@@ -9,6 +9,16 @@ import type {
 } from "../../types/Form.js";
 import { confirmForm } from "./confirm.form.js";
 
+/**
+ * Exibe e gerencia um formulário interativo no terminal.
+ *
+ * O formulário solicita ao usuário valores para cada campo definido em `form`,
+ * aplicando validações e exibindo mensagens de erro caso necessário.
+ * Ao final, pede confirmação antes de retornar os resultados.
+ *
+ * @returns {FormReturn<T>} Resultado do formulário com as chaves e valores informados,
+ * ou `undefined` caso a operação seja cancelada.
+ */
 export const form = async <T extends string>({
 	form,
 	view,

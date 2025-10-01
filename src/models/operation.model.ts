@@ -20,7 +20,13 @@ export class OperationModel {
 		this._quantity = quantity;
 	}
 
-	public run(currentValue: number) {
+	/**
+	 * Recebe um valor e roda operação configurada nele
+	 * @param currentValue - valor a ser manipulado
+	 * @returns valor modificado pela operação configurada
+	 */
+	public run(currentValue: number): number {
+		// direção da operação
 		const dx = this._operation === OperationType.buy ? -1 : 1;
 		return currentValue + this._unitCost * this.quantity * dx;
 	}

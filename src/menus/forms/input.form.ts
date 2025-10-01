@@ -7,22 +7,17 @@ import type {
 	ValidateTestResult,
 	ValidationType,
 } from "../../types/Validate.js";
+import type { InputForm, InputFormReturn } from "../../types/InputForm.js";
 
 const { prompt } = enq;
 
-type InputForm = {
-	appInstance: App<MenuNameId>;
-	label: string;
-	validation?: Partial<Record<ValidationType, any>>;
-	initial?: any;
-	disabled?: boolean;
-	onCancel?: () => void;
-};
-
-interface InputFormReturn extends ValidateTestResult {
-	value: any;
-}
-
+/**
+ * Exibe um prompt de entrada de texto no terminal usando `enquirer`.
+ *
+ * Permite definir label, valor inicial, validações, estado desabilitado
+ * e callback em caso de cancelamento. Se o usuário digitar "x" ou cancelar,
+ * a operação é abortada e retorna inválido.
+ */
 export const inputForm = async ({
 	label,
 	appInstance,

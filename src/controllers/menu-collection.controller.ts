@@ -30,6 +30,17 @@ export class MenuCollectionController<T> {
 		}
 	}
 
+	/**
+	 * Renderiza o menu correspondente ao ID fornecido.
+	 *
+	 * - Limpa o terminal antes de renderizar.
+	 * - Exibe as opções do menu e aguarda a seleção do usuário.
+	 * - Executa a ação associada à opção escolhida.
+	 *
+	 * @param {T | undefined} id - ID do menu a ser renderizado.
+	 *                             Se `undefined`, usa o último menu acessado.
+	 * @param {App<T>} appInstance - Instância da aplicação que controla o ciclo de vida.
+	 */
 	async render(id: T | undefined, appInstance: App<T>) {
 		if (!this._lastMenuId && !id) return;
 
@@ -69,6 +80,11 @@ export class MenuCollectionController<T> {
 		option.onSelect(menu, this._view);
 	}
 
+	/**
+	 * Volta para o último menu renderizado.
+	 *
+	 * @param {App<T>} appInstance - Instância da aplicação que controla o ciclo de vida.
+	 */
 	goBack(appInstance: App<T>): void {
 		if (this._lastMenuId) {
 			this.render(this._lastMenuId, appInstance);

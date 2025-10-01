@@ -30,6 +30,12 @@ export class FormatDate {
 			.replace(/ss/g, dateObj.seconds);
 	}
 
+	/**
+	 * @param date - objeto de data
+	 * @param type - tipo de valor a ser retornado, caso "string" todas as propriedades do objeto
+	 * retornado serão do tipo texto, a mesma lógica se aplica para "number"
+	 * @returns Retorna objeto contendo propriedades de data e hora.
+	 */
 	static getDateObj<T extends DateObjReturnType>(
 		date: Date,
 		type: T,

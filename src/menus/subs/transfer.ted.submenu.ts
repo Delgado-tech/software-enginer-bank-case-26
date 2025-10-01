@@ -1,6 +1,5 @@
 import chalk from "chalk";
 import { AccountsController } from "../../controllers/accounts.controller.js";
-import { OperationModel } from "../../models/operation.model.js";
 import { OperationType } from "../../types/OperationType.js";
 import type { GetSubMenu } from "../../types/SubMenu.js";
 import { AccountView } from "../../views/account.view.js";
@@ -115,12 +114,12 @@ export const getTransferTedSubMenu: GetSubMenu = async ({
 			const tax = new TaxModel().getTaxPercent(amount, amount + TED_TAX);
 
 			let taxColor: string;
-
+			// cor aplicada com severidade da taxa
 			if (tax >= 100) {
 				taxColor = "#FF0000"; // vermelho
 			} else if (tax >= 50) {
 				taxColor = "#F18D0A"; // laranja escuro
-			} else if (tax >= 15) {
+			} else if (tax >= 10) {
 				taxColor = "#F1CF0A"; // amarelo
 			} else if (tax >= 3) {
 				taxColor = "#FFFFFF"; // branco
@@ -140,6 +139,7 @@ export const getTransferTedSubMenu: GetSubMenu = async ({
 	if (formResult) {
 		const amount = Number(formResult.amount) + TED_TAX;
 
+		// realiza transação de remoção de valor da conta
 		const sucess = AccountsController.Instance.transact({
 			id: appInstance.sessionAccountId,
 			amount: amount,
@@ -151,6 +151,7 @@ export const getTransferTedSubMenu: GetSubMenu = async ({
 			: "Ocorreu um erro ao realizar a operação, tente novamente mais tarde";
 
 		if (sucess) {
+			// registra no extrato a operação realizada
 			BankStatementsController.Instance.add([
 				{
 					accountId: appInstance.sessionAccountId,

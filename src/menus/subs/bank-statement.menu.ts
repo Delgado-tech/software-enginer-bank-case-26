@@ -29,6 +29,7 @@ export const getBankStatementSubMenu: GetSubMenu = async ({
 			return `\n${"-".repeat(30)}\n${info}\n`;
 		});
 
+	// renderiza submenu com navegação entre registros do extrato
 	await select({
 		message:
 			chalk.blue(view.toHeader(model.header)) +

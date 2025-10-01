@@ -7,6 +7,9 @@ import { AccountView } from "./account.view.js";
 const accountView = new AccountView();
 
 export class BankStatementView {
+	/**
+	 * @returns string de extrato formatada
+	 */
 	getStatementInfo(model?: BankStatementModel) {
 		if (!model) return "Registro de extrato não encontrado!";
 

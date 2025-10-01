@@ -7,6 +7,13 @@ import type {
 	AccountTransact,
 } from "../types/Accounts.js";
 
+/**
+ * Controlador responsável por gerenciar as contas da aplicação.
+ *
+ * - Implementa o padrão Singleton para garantir apenas uma instância global.
+ * - Permite criar, atualizar, listar, remover e realizar transações em contas.
+ * - Internamente, armazena as contas em um `Map<number, AccountModel>`.
+ */
 export class AccountsController {
 	private readonly _accountList: Map<number, AccountModel>;
 	private currentId: number = 0;
@@ -65,6 +72,22 @@ export class AccountsController {
 		this._accountList.delete(id);
 	}
 
+	/**
+	 * Executa uma operação financeira (adição/remoção) em uma conta.
+	 *
+	 * - Cria uma instância de `OperationModel` para calcular o novo saldo.
+	 * - Atualiza o saldo da conta caso exista.
+	 *
+	 * @param {AccountTransact} param - Objeto contendo o ID da conta, operação e valor.
+	 * @returns {boolean} `true` se a transação foi bem-sucedida, `false` se a conta não existir.
+	 *
+	 * @example
+	 * AccountsController.Instance.transact({
+	 *   id: 1,
+	 *   operation: "buy", // ou "sell"
+	 *   amount: 100
+	 * });
+	 * */
 	transact({ id, operation, amount }: AccountTransact): boolean {
 		const account = this.get(id);
 		if (!account) return false;

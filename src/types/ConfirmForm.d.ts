@@ -8,3 +8,5 @@ export type ConfirmFormProps<T> = {
 	view: MenuView;
 	getBeforeText: (formResult?: FormResult<T>) => void;
 };
+
+export type ConfirmOption = "Confirmar" | "Cancelar";

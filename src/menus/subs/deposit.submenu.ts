@@ -1,6 +1,5 @@
 import chalk from "chalk";
 import { AccountsController } from "../../controllers/accounts.controller.js";
-import { OperationModel } from "../../models/operation.model.js";
 import { OperationType } from "../../types/OperationType.js";
 import type { GetSubMenu } from "../../types/SubMenu.js";
 import { AccountView } from "../../views/account.view.js";
@@ -57,6 +56,7 @@ export const getDepositSubMenu: GetSubMenu = async ({
 
 		const account = accounts.get(appInstance.sessionAccountId);
 
+		// realiza transação de adição no valor da conta
 		const sucess = accounts.transact({
 			id: appInstance.sessionAccountId,
 			amount,
@@ -68,6 +68,7 @@ export const getDepositSubMenu: GetSubMenu = async ({
 			: "Ocorreu um erro ao realizar a operação, tente novamente mais tarde";
 
 		if (sucess) {
+			// registra no extrato a operação realizada
 			BankStatementsController.Instance.add([
 				{
 					accountId: appInstance.sessionAccountId,

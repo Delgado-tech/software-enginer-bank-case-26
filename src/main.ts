@@ -8,14 +8,12 @@ import { accountsMock } from "./mocks/accounts.mock.js";
 import type { App } from "./types/App.js";
 import type { MenuNameId } from "./types/MenuList.js";
 import { getTransferMenu } from "./menus/transfer.menu.js";
-import { select } from "@inquirer/prompts";
 import { BankStatementsController } from "./controllers/bankStatements.controller.js";
 import { bankStatementMock } from "./mocks/bank-statement.mock.js";
-import { BankStatementView } from "./views/bank-statement.view.js";
-import { BankStatementModel } from "./models/bank-statement.model.js";
 
 // inicializa as contas de usuário
 AccountsController.Instance.add(accountsMock);
+// inicializa o histórico de transações dos usuários
 BankStatementsController.Instance.add(bankStatementMock);
 
 const app: App<MenuNameId> = {
@@ -33,9 +31,11 @@ const app: App<MenuNameId> = {
 	},
 };
 
+// registra menus no aplicativo
 app.menu.register(() => getMainMenu(app));
 app.menu.register(() => getAccountMenu(app));
 app.menu.register(() => getTransactionMenu(app));
 app.menu.register(() => getTransferMenu(app));
 
+// inicializa o app renderizando o menu main
 app.menu.render("main", app);
